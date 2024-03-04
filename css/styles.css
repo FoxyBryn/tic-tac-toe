@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+    --main-colour: antiquewhite;
+    --accent-colour: lightcoral;
+    --main-font-colour: rgb(3, 3, 71);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Shantell Sans', sans-serif;
+    color: var(--main-font-colour);
+}
+
+header {
+    background-color: var(--accent-colour);
+    font-size: clamp(2rem, 5vw, 5rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main {
+    flex: 1;
+    background-color: var(--main-colour);
+    box-shadow: 
+        inset 0px 8px 12px -9px #181717,
+        inset 0px -8px 12px -9px #181717; 
+}
+
+footer {
+background-color: var(--accent-colour);
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 1rem;
+height: 5rem;
+
+    & svg {
+        fill: var(--main-font-colour);
+        height: 3rem;
+        transition: transform 0.4s ease-in-out;
+    }
+
+    & svg:hover {
+        transform: rotate(360deg) scale(1.2);
+    }
+}
