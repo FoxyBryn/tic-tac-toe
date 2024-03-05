@@ -116,12 +116,14 @@ function gameController(
         if (checkWin(getActivePlayer())) {
             console.log(`${getActivePlayer().name} wins!`);
             board.printBoard();
+            handleWin(getActivePlayer().name);
             return;
         }
 
         if (checkDraw()) {
             console.log("It's a draw!");
             board.printBoard();
+            handleDraw();
             return;
         }
 
@@ -156,15 +158,49 @@ function gameController(
         }
     };
 
+    let gameState = {
+        status: '',
+        winner: null,
+        disableCells: false,
+        disableTurn: false
+    };
+
+    const setGameState = (state) => {
+        gameState = state;
+    };
+
+    const getGameState = () => {
+        return gameState;
+    };
+
+    const handleWin = (winnerName) => {
+        setGameState({
+            status: `${winnerName} wins!`,
+            winner: winnerName,
+            disableCells: true,
+            disableTurn: true
+        });
+    };
+
+    const handleDraw = () => {
+        setGameState({
+            status: `It's a draw!`,
+            winner: null,
+            disableCells: true,
+            disableTurn: true
+        });
+    };
+
     printNewRound();
 
-    return { playRound, resetGame, getActivePlayer, getBoard: board.getBoard };
+    return { playRound, resetGame, getActivePlayer, getBoard: board.getBoard, getGameState };
 }
 
 const screenController = (function () {
     const game = gameController();
     const playerTurnDiv = document.querySelector('.player-turn');
     const boardDiv = document.querySelector('.board');
+    const gameStateDiv = document.querySelector('.game-state');
 
     const updateScreen = () => {
         boardDiv.textContent = '';
@@ -182,19 +218,20 @@ const screenController = (function () {
                 boardDiv.appendChild(cellButton);
             });
         });
+
+        const gameState = game.getGameState();
+        gameStateDiv.textContent = gameState.status;
+
+        if (gameState.disableCells) {
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.disabled = true;
+            });
+        }
+
+        if (gameState.disableTurn) {
+            playerTurnDiv.style.display = 'none';
+        }
     };
-
-    // const handleWin = (winnerName) => {
-    //     console.log('handling win')
-    //     playerTurnDiv.textContent = `${winnerName} wins!`;
-    //     document.querySelectorAll('.cell').forEach(cell => {
-    //         cell.disabled = true;
-    //     });
-    // };
-
-    // const handleDraw = () => {
-    //     playerTurnDiv.textContent = `It's a draw!`;
-    // };
 
     function clickHandlerBoard(event) {
         const selectedCell = event.target;
@@ -209,6 +246,4 @@ const screenController = (function () {
     boardDiv.addEventListener('click', clickHandlerBoard);
 
     updateScreen();
-
-    return { handleWin, handleDraw }
 })();
