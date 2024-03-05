@@ -201,9 +201,14 @@ function gameController(
         });
     };
 
+    const renamePlayers = (newPlayerOneName, newPlayerTwoName) => {
+        players[0].name = newPlayerOneName;
+        players[1].name = newPlayerTwoName;
+    }
+
     printNewRound();
 
-    return { playRound, resetGame, getActivePlayer, getBoard: board.getBoard, getGameState };
+    return { playRound, resetGame, getActivePlayer, getBoard: board.getBoard, getGameState, renamePlayers };
 }
 
 const screenController = (function () {
@@ -212,7 +217,10 @@ const screenController = (function () {
     const boardDiv = document.querySelector('.board');
     const gameStateDiv = document.querySelector('.game-state');
     const resetButton = document.querySelector('.reset');
-    const nameChangeButton = document.querySelector('.name-change');
+    const nameChangeButton = document.querySelector('.name-change-button');
+    const dialog = document.querySelector('.name-change-form');
+    const changeForm = document.querySelector('form');
+    const formCancelButton = document.querySelector('.cancel');
 
     const updateScreen = () => {
         boardDiv.textContent = '';
@@ -259,8 +267,43 @@ const screenController = (function () {
     }
     boardDiv.addEventListener('click', clickHandlerBoard);
 
+    function renamePlayers() {
+        const newPlayerOne = document.querySelector('#player-one-name').value;
+        const newPlayerTwo = document.querySelector('#player-two-name').value;
+
+        if (newPlayerOne === newPlayerTwo) {
+            alert('Player names cannot be the same.')
+            return;
+        }
+
+        game.renamePlayers(newPlayerOne, newPlayerTwo);
+        dialog.close();
+    }
+
     resetButton.addEventListener('click', () => {
         game.resetGame();
+        updateScreen();
+    });
+
+    nameChangeButton.addEventListener('click', () => {
+        dialog.showModal();
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.contains(dialog)) return;
+        changeForm.reset();
+        dialog.close();
+    });
+
+    formCancelButton.addEventListener('click', () => {
+        changeForm.reset();
+        dialog.close();
+    });
+
+    changeForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        renamePlayers();
+        changeForm.reset();
         updateScreen();
     });
 

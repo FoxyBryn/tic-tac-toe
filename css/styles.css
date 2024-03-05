@@ -4,6 +4,8 @@
     --main-colour: antiquewhite;
     --accent-colour: lightcoral;
     --main-font-colour: rgb(3, 3, 71);
+    --button-colour: #c7c7c7;
+    --button-hover: #2d4c7546;
 }
 
 * {
@@ -64,5 +66,58 @@ height: 5rem;
 
     & svg:hover {
         transform: rotate(360deg) scale(1.2);
+    }
+}
+
+dialog {
+    border-radius: 2rem;
+    border: none;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    background-color: var(--main-colour);
+}
+
+dialog::backdrop {
+    background-color: #00000077;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
+    gap: 2rem;
+
+    & input {
+        padding: 1rem;
+        border-radius: 0.4rem;
+        border: solid #bfc1c4 1px;
+        font-size: 1.5rem;
+    }
+
+    & input:focus {
+        box-shadow: rgba(0, 0, 0, 0.4) 4px 4px 5px, 0 0 0 1px var(--accent-colour);
+        outline: none;
+    }
+
+    & .form-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    & button {
+        padding: 1rem 3rem;
+        border: none;
+        border-radius: 1rem;
+        font-size: 1.5rem;
+        background-color: var(--button-colour);
+        transition: 0.3s;
+    }
+
+    & button:hover {
+        background-color: var(--button-hover);
     }
 }

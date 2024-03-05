@@ -12,11 +12,13 @@
         <h1>Tic Tac Toe</h1>
     </header>
     <main>
-        <div class="player-turn"></div>
-        <div class="game-state"></div>
+        <div>
+            <div class="player-turn"></div>
+            <div class="game-state"></div>
+        </div>
         <div class="board"></div>
         <div class="action-buttons">
-            <button class="name-change">Change Player Names</button>
+            <button class="name-change-button">Change Player Names</button>
             <button class="reset">Reset Game</button>
         </div>
     </main>
@@ -28,5 +30,17 @@
             </svg>
         </a>
     </footer>
+    <dialog class="name-change-form">
+        <form>
+            <label for="player-one-name">X:</label>
+            <input id="player-one-name" type="text" name="player-one-name" placeholder="Player One" required>
+            <label for="player-two-name">O:</label>
+            <input id="player-two-name" type="text" name="player-two-name" placeholder="Player Two" required>
+            <div class="form-buttons">
+                <button type="submit">Save</button>
+                <button type="button" class="cancel">Cancel</button>
+            </div>
+        </form>
+    </dialog>
 </body>
 </html>
