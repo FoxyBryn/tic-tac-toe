@@ -1,3 +1,6 @@
+
+// #################------------------------Creates game board and handles board marking------------------------#################
+
 function gameBoard() {
 
     function cell() {
@@ -59,6 +62,8 @@ function gameBoard() {
 
     return { getBoard, markBoard, resetBoard, printBoard };
 }
+
+// #################---------------Handles all game logic, stores players and current game state---------------#################
 
 function gameController(
     playerOneName = "Player One",
@@ -212,6 +217,8 @@ function gameController(
     return { playRound, resetGame, getActivePlayer, getBoard: board.getBoard, getGameState, renamePlayers };
 }
 
+// #################--------------------------------Handles all DOM manipulation--------------------------------#################
+
 const screenController = (function () {
     const game = gameController();
     const playerTurnDiv = document.querySelector('.player-turn');
@@ -258,7 +265,7 @@ const screenController = (function () {
 
     function clickHandlerBoard(event) {
         const selectedCell = event.target;
-        if (!selectedCell) return;
+        if (!selectedCell.classList.contains('cell')) return;
 
         const rowIndex = parseInt(selectedCell.dataset.row);
         const columnIndex = parseInt(selectedCell.dataset.column);
@@ -269,14 +276,19 @@ const screenController = (function () {
     boardDiv.addEventListener('click', clickHandlerBoard);
 
     function renamePlayers() {
-        const newPlayerOne = document.querySelector('#player-one-name').value;
-        const newPlayerTwo = document.querySelector('#player-two-name').value;
-
-        if (newPlayerOne === newPlayerTwo) {
-            alert('Player names cannot be the same.')
+        const newPlayerOne = document.querySelector('#player-one-name').value.trim();
+        const newPlayerTwo = document.querySelector('#player-two-name').value.trim();
+    
+        if (newPlayerOne === '' || newPlayerTwo === '') {
+            alert('Player names cannot be empty.');
             return;
         }
-
+    
+        if (newPlayerOne === newPlayerTwo) {
+            alert('Player names cannot be the same.');
+            return;
+        }
+    
         game.renamePlayers(newPlayerOne, newPlayerTwo);
         dialog.close();
     }
