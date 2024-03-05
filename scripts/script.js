@@ -151,6 +151,7 @@ function gameController(
         board.resetBoard();
         activePlayer = players[0];
         console.log("Game reset.");
+        handleReset();
         printNewRound();
 
         for (const player of players) {
@@ -191,6 +192,15 @@ function gameController(
         });
     };
 
+    const handleReset = () => {
+        setGameState({
+            status: '',
+            winner: null,
+            disableCells: false,
+            disableTurn: false
+        });
+    };
+
     printNewRound();
 
     return { playRound, resetGame, getActivePlayer, getBoard: board.getBoard, getGameState };
@@ -201,6 +211,8 @@ const screenController = (function () {
     const playerTurnDiv = document.querySelector('.player-turn');
     const boardDiv = document.querySelector('.board');
     const gameStateDiv = document.querySelector('.game-state');
+    const resetButton = document.querySelector('.reset');
+    const nameChangeButton = document.querySelector('.name-change');
 
     const updateScreen = () => {
         boardDiv.textContent = '';
@@ -230,6 +242,8 @@ const screenController = (function () {
 
         if (gameState.disableTurn) {
             playerTurnDiv.style.display = 'none';
+        } else {
+            playerTurnDiv.style.display = '';
         }
     };
 
@@ -244,6 +258,11 @@ const screenController = (function () {
         updateScreen();
     }
     boardDiv.addEventListener('click', clickHandlerBoard);
+
+    resetButton.addEventListener('click', () => {
+        game.resetGame();
+        updateScreen();
+    });
 
     updateScreen();
 })();
