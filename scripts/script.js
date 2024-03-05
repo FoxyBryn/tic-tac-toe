@@ -1,4 +1,17 @@
 function gameBoard() {
+
+    function cell() {
+        let mark = '';
+    
+        const setMark = (playerMark) => {
+            mark = playerMark;
+        };
+    
+        const getMark = () => mark;
+    
+        return { setMark, getMark };
+    }
+
     const rows = 3;
     const columns = 3;
     const board = [];
@@ -45,18 +58,6 @@ function gameBoard() {
     };
 
     return { getBoard, markBoard, resetBoard, printBoard };
-}
-
-function cell() {
-    let mark = '';
-
-    const setMark = (playerMark) => {
-        mark = playerMark;
-    };
-
-    const getMark = () => mark;
-
-    return { setMark, getMark };
 }
 
 function gameController(
@@ -232,7 +233,7 @@ const screenController = (function () {
             row.forEach((cell, columnIndex) => {
                 const cellButton = document.createElement('button');
                 cellButton.classList.add('cell');
-                cellButton.textContent = cell.getMark();
+                cellButton.textContent = board[rowIndex][columnIndex].getMark();
                 cellButton.dataset.row = rowIndex;
                 cellButton.dataset.column = columnIndex;
                 boardDiv.appendChild(cellButton);
